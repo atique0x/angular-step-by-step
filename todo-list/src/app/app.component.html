@@ -1,0 +1,55 @@
+<div class="p-6 min-h-screen flex flex-col items-center bg-gray-100">
+
+  <h1 class="text-xl font-bold py-2">{{title}}</h1>
+
+  <!-- Input Section -->
+  <div class="max-w-md w-full flex mb-4">
+    <input type="text" class="w-full py-2 px-4 border border-gray-400 rounded-l-md focus:outline-none "
+      placeholder="Add new list">
+    <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-r-md transition font-semibold">
+      Add
+    </button>
+  </div>
+
+  <!-- Todo Table -->
+  <div class="max-w-md w-full">
+    <table class="w-full border-collapse text-white border border-gray-400  overflow-hidden">
+      <!-- Row 1 (Odd) -->
+      <tr class="bg-gray-800 h-12">
+        <td class="w-full px-4">{{taskList[0]}}</td>
+        <td class="flex">
+          <button class="w-12 h-12 bg-gray-500 hover:bg-gray-400 transition shadow-md font-bold">✖</button>
+          <button class="w-12 h-12 bg-gray-500 hover:bg-gray-400 transition shadow-md font-bold">✔</button>
+        </td>
+      </tr>
+
+      <!-- Row 2 (Even) -->
+      <tr class="bg-gray-700 h-12">
+        <td class="w-full px-4">{{taskList[1]}}</td>
+        <td class="flex">
+          <button class="w-12 h-12 bg-gray-500 hover:bg-gray-400 transition shadow-md font-bold">✖</button>
+          <button class="w-12 h-12 bg-gray-500 hover:bg-gray-400 transition shadow-md font-bold">✔</button>
+        </td>
+      </tr>
+
+      <!-- Row 3 (Odd) -->
+      <tr class="bg-gray-800 h-12">
+        <td class="w-full px-4">{{taskList[2]}}</td>
+        <td class="flex">
+          <button class="w-12 h-12 bg-gray-500 hover:bg-gray-400 transition shadow-md font-bold">✖</button>
+          <button class="w-12 h-12 bg-gray-500 hover:bg-gray-400 transition shadow-md font-bold">✔</button>
+        </td>
+      </tr>
+
+      <!-- Row 4 (Even) -->
+      <tr class="bg-gray-700 h-12">
+        <td class="w-full px-4">{{taskList[3]}}</td>
+        <td class="flex">
+          <button class="w-12 h-12 bg-gray-500 hover:bg-gray-400 transition shadow-md font-bold">✖</button>
+          <button class="w-12 h-12 bg-gray-500 hover:bg-gray-400 transition shadow-md font-bold">✔</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>
