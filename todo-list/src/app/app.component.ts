@@ -7,10 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title: string = 'Todo-App';
-  taskList = [
-    'Arrived ESS',
-    "Note Today's Materials",
-    'Start Study',
-    'Create Mini Project',
-  ];
 }

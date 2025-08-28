@@ -1,0 +1,38 @@
+<div class="p-6 flex flex-col items-center bg-gray-100">
+
+
+
+  <!-- Input Section -->
+  <div class="max-w-md w-full flex mb-4">
+    <input type="text" class="w-full py-2 px-4 border border-gray-400 rounded-l-md focus:outline-none "
+      placeholder="Add new list" #newTask>
+    <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-r-md transition font-semibold"
+      (click)="addTask(newTask.value)">
+      Add
+    </button>
+  </div>
+
+
+
+
+
+  <!-- Todo Table -->
+  <div class="max-w-md w-full">
+    <table class="w-full text-white">
+      <tr *ngFor="let task of taskList; index as i" class="border">
+        <td class="w-full px-4 h-12" [ngClass]="{
+          'line-through': task.isDone,
+          'bg-gray-600':i%2===0,
+          'bg-gray-800':i%2===1}">{{i+1}}. {{task.title}}</td>
+
+        <td class="flex border border-gray-600">
+          <button class="w-14 h-12 bg-gray-500 border hover:bg-gray-400 transition"
+            (click)="removeTask(task)">✖</button>
+          <button class="w-14 h-12 bg-gray-500 border hover:bg-gray-400 transition"
+            (click)="completeTask(task)">{{task.isDone? "Undo":"Done"}}</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>
