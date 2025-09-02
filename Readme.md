@@ -1,6 +1,4 @@
-# 🚀 Angular Step by Step
-
-## 📌 Topics
+# Angular Topics
 
 - What is Angular
 - Project Structure Overview
@@ -29,3 +27,7 @@
 - Performance Optimization
 - Testing (Jasmine/Karma or Jest)
 - Accessibility (a11y)
+
+#### Course Link: https://www.udemy.com/course/the-complete-guide-to-angular-2/learn/lecture/6655594#overview
+
+#### Maximilian GitHub: https://github.com/mschwarzmueller/angular-complete-guide-course-resources
