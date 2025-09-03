@@ -7,14 +7,11 @@
 - Encapsulation
 - Class Binding
 - Style Binding
-
+- Component Lifecycle
+- Templete Variable
+- Two way binding
 
 
 
 
 <br>
-
-Recap
-
-- Property Binding
-- Inputs
