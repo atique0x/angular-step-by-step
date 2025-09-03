@@ -26,10 +26,6 @@
   color: #38343c;
 }
 
-:host {
-  width: 15rem;
-}
-
 @media (min-width: 768px) {
   :host {
     flex-direction: row;

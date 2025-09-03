@@ -1,0 +1,17 @@
+<article>
+  <h3>
+    <div [class]="{
+                'ticket-open': ticket?.status==='open',
+                'ticket-closed': ticket?.status==='close'
+              }"></div>
+    <span class="text">{{ticket?.title}}</span>
+  </h3>
+  <p>{{ticket?.message}}</p>
+  <p *ngIf="ticket?.status==='open'; else close">
+    <button (click)="onMarked(ticket?.id)">Mark as done</button>
+  </p>
+  <ng-template #close>
+    <p>Marked</p>
+  </ng-template>
+
+</article>
