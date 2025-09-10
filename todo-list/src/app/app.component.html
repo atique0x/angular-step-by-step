@@ -1,0 +1,11 @@
+<div class="bg-gray-700 text-center text-white py-10 mb-10">
+  <h1 class="text-3xl font-bold py-2">{{title}}</h1>
+  <a [routerLink]="'/'" class="bg-blue-600 px-6 py-2 mx-2 hover:bg-blue-800">Todo</a>
+  <a [routerLink]="'/calender'" class="bg-blue-600 px-6 py-2 mx-2 hover:bg-blue-800">Calender</a>
+</div>
+
+<body>
+  <router-outlet></router-outlet>
+  <!-- <app-task-list></app-task-list>
+  <app-calender></app-calender> -->
+</body>

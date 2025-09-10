@@ -1,0 +1,14 @@
+<app-places-container title="Available Places">
+
+  <p class="fallback-text" *ngIf="isFetched && !isError">Fetching data...</p>
+  <p class="fallback-text" *ngIf="isError">{{isError}}</p>
+
+  <app-places *ngIf="places && places.length> 0" [places]="places" (selectPlace)="onSelectPlace($event)">
+  </app-places>
+
+  <!-- <ng-template #noPlaces>
+    <p class="fallback-text">Unfortunately, no places could be found.</p>
+  </ng-template> -->
+
+
+</app-places-container>

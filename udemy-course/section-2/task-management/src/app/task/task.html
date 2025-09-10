@@ -1,0 +1,15 @@
+<app-new-task [taskShow]="addTaskVisibility" *ngIf="addTaskVisibility" (closeTask)="onCloseTask()"
+  [userId]="selectedUser.id"></app-new-task>
+
+<section id="tasks">
+  <header>
+    <h2>{{selectedUser?.name}}'s Task</h2>
+    <menu>
+      <button (click)="onAddTask()">Add Task</button>
+    </menu>
+  </header>
+  <ul>
+    <li *ngFor="let task of selectedTask"><app-each-task [selectedTask]="task"></app-each-task></li>
+  </ul>
+
+</section>

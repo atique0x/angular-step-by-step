@@ -1,0 +1,36 @@
+<!-- <form (ngSubmit)="onSubmit(titleInput.value, requestInput.value)"> -->
+
+<form (ngSubmit)="onSubmit(titleInput, requestInput)" #form>
+  <app-control label="Title">
+    <input type="text" name="title" id="title" #titleInput #input>
+  </app-control>
+  <app-control label="Request">
+    <textarea name="request" id="request" rows="3" #requestInput #input></textarea>
+  </app-control>
+  <p>
+    <button appButton>
+      Submit
+      <span class=".icon" ngProjectAs="icon"> &#x27A4; </span>
+    </button>
+  </p>
+
+</form>
+
+
+<!-- <form (ngSubmit)="onSubmit()">
+  <app-control label="Title">
+    <input type="text" name="title" id="title" [(ngModel)]="enteredTitle">
+  </app-control>
+  <app-control label="Request">
+    <textarea name="request" id="request" rows="3" [(ngModel)]="enteredRequest"></textarea>
+  </app-control>
+  <p>
+    <button appButton><span class="icon">&#x27A4;</span>Submit </button>
+    <button appButton>
+      Submit
+      <span class=".icon" ngProjectAs="icon"> &#x27A4; </span>
+    </button>
+    <button appButton buttonTitle="Submit" buttonIcon="&#x27A4;"></button>
+  </p>
+
+</form> -->

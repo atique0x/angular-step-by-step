@@ -1,0 +1,12 @@
+<div *ngIf="tickets?.length;else noTicket">
+  <ul>
+    <li *ngFor="let ticket of tickets;let i=index">
+      <app-ticket [ticket]="ticket" (marked)="onMarked($event)"></app-ticket>
+    </li>
+  </ul>
+</div>
+<ng-template #noTicket>
+  No ticket Available
+</ng-template>
+
+<app-new-ticket (ticketData)="onTicketData($event)"></app-new-ticket>

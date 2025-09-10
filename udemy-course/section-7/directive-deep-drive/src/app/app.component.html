@@ -1,0 +1,20 @@
+<main>
+  <app-learning-resources></app-learning-resources>
+
+  <hr />
+
+  <app-auth></app-auth>
+
+  <!-- <p *ngIf="permission==='admin';else user">Only admin see this</p>
+  <ng-template #user>
+    <p *ngIf="permission==='user';else guest">Only user see this</p>
+  </ng-template>
+  <ng-template #guest>
+    <p>Only guest see this</p>
+  </ng-template> -->
+
+  <ng-template appAuth="guest">
+    <p>Admin</p>
+  </ng-template>
+
+</main>

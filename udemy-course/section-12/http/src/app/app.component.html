@@ -1,0 +1,15 @@
+<header>
+  <img src="assets/logo.png" alt="Stylized globe" />
+  <h1>PlacePicker</h1>
+  <p>
+    Create your personal collection of places you would like to visit or you
+    have visited.
+  </p>
+</header>
+
+<main>
+  <app-available-places></app-available-places>
+  <app-user-places></app-user-places>
+</main>
+
+<app-error-modal title="An error occured" [message]="error" *ngIf="error"></app-error-modal>
