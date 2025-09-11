@@ -1,0 +1,98 @@
+<section class="container">
+  <header>Templete Driven Form</header>
+
+  <form class="form" (ngSubmit)="onFormSubmit()" #registrationForm="ngForm">
+    <div class="column">
+      <div class="input-box">
+        <input type="text" placeholder="First Name" name="firstName" [(ngModel)]="firstName" #fname="ngModel" />
+        <div *ngIf="fname.touched && !fname.dirty"><small>* Firstname is required</small></div>
+      </div>
+
+
+      <div class="input-box">
+        <input type="text" placeholder="Last Name" name="lastName" [(ngModel)]="lastName" #lname="ngModel" />
+        <div *ngIf="lname.touched && !lname.dirty"><small>* Lastname is required</small></div>
+      </div>
+    </div>
+
+    <div class="input-box">
+      <input type="email" placeholder="Email" name="email" [(ngModel)]="email" email #gmail="ngModel" />
+      <div *ngIf="gmail.dirty && gmail.invalid"><small>* Email is not valid</small></div>
+    </div>
+
+    <div class="column">
+      <div class="input-box">
+        <input type="number" placeholder="Phone Number" name="phone" ngModel #phone="ngModel" />
+      </div>
+      <div class="input-box">
+        <input type="date" placeholder="Date of Birth" name="date" [(ngModel)]="dates" #dob="ngModel" />
+        <div *ngIf="dob.touched && !dob.dirty"><small>* Date is required</small></div>
+      </div>
+    </div>
+
+    <div class="input-box">
+      <input type="text" placeholder="Username" name="username" ngModel />
+      <button class="btn-gen-username" type="button" [disabled]="fname.invalid || lname.invalid || dob.invalid"
+        (click)="onGenerateUsername()">
+        Generate username
+      </button>
+      <div *ngIf="fname.invalid || lname.invalid || dob.invalid">Disable</div>
+    </div>
+
+    <div class="gender-box">
+      <h3>Gender</h3>
+      <div class="gender-option">
+        <div class="gender" *ngFor="let gender of genders">
+          <input type="radio" [id]="gender.id" [value]="gender.value" name="gender" [checked]="gender.value==='others'"
+            ngModel />
+          <label [for]="gender.id">{{gender.option}}</label>
+        </div>
+        <!-- <div class="gender">
+          <input type="radio" id="check-female" value="female" name="gender" ngModel />
+          <label for="check-female">Female</label>
+        </div>
+        <div class="gender">
+          <input type="radio" id="check-other" value="other" name="gender" ngModel />
+          <label for="check-other">prefer not to say</label>
+        </div> -->
+      </div>
+    </div>
+
+    <div *ngFor="let address of addresses; let i=index" class="input-box address" ngModelGroup="addresses">
+      <fieldset ngModelGroup="address{{i}}">
+        <div>
+          <label>Address {{i+1}}</label>
+          <!-- <div *ngIf="disableRemoveAddress"><button type="button" (click)="onRemoveField(i)">Remove</button></div> -->
+        </div>
+
+        <input type="text" placeholder="Street address" name="street{{i}}" ngModel />
+        <div class="column">
+          <div class="select-box">
+            <select name="country{{i}}" ngModel>
+              <option value="" disabled selected>Country</option>
+              <option value="bangladesh">Bangladesh</option>
+              <option value="germany">Germany</option>
+              <option value="usa">America</option>
+              <option value="japan">Japan</option>
+            </select>
+          </div>
+          <input type="text" placeholder="City" name="city{{i}}" ngModel />
+        </div>
+        <div class="column">
+          <input type="text" placeholder="Region" name="region{{i}}" ngModel />
+          <input type="number" placeholder="Postal code" name="postal{{i}}" ngModel />
+        </div>
+      </fieldset>
+    </div>
+
+    <button type="button" class="btn-gen-username" (click)="addAddress()">Add Address</button>
+
+    <div>
+      <input type="checkbox" name="agreement" ngModel>
+      <label for="agreement"> I agree to terms and conditions</label>
+    </div>
+
+    <input type="submit" value="Submit" class="submit-btn" [disabled]="registrationForm.invalid">
+    <p *ngIf="registrationForm.invalid">Form is disable beacuse invalid</p>
+  </form>
+</section>

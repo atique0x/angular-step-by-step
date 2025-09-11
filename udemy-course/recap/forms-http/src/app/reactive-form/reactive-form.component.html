@@ -1,0 +1,115 @@
+<section class="container">
+  <header>Reactive Form</header>
+
+  <form class="form" [formGroup]="reactiveForm" (ngSubmit)="onFormSubmitted()">
+    <div class="column" formGroupName="name">
+      <div class="input-box">
+        <input type="text" placeholder="First Name" formControlName="firstName" />
+        <div
+          *ngIf="reactiveForm.get('name.firstName')?.errors?.['required'] && reactiveForm.get('name.firstName')?.touched">
+          <small>* Firstname is required</small>
+        </div>
+        <div *ngIf="reactiveForm.get('name.firstName')?.errors?.['noSpaceAllowed']">
+          <small>* No Space allowed</small>
+        </div>
+
+      </div>
+
+      <div class="input-box">
+        <input type="text" placeholder="Last Name" formControlName="lastName" />
+        <div *ngIf="reactiveForm.get('name.lastName')?.invalid && reactiveForm.get('name.lastName')?.touched">
+          <small>*Lastname is required</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-box">
+      <input type="email" placeholder="Email" formControlName="email" />
+      <div
+        *ngIf="reactiveForm?.get('email')?.invalid && reactiveForm?.get('email')?.touched && reactiveForm?.get('email')?.dirty">
+        <small>* Email is not valid</small>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="input-box">
+        <input type="text" placeholder="Phone Number" formControlName="phone" />
+      </div>
+      <div class="input-box">
+        <input type="date" placeholder="Date of Birth" formControlName="dateOfBirth" />
+        <!-- <div><small>* Date is required</small></div> -->
+      </div>
+    </div>
+
+    <div class="input-box">
+      <input type="text" placeholder="Username" formControlName="username" />
+    </div>
+
+    <div class="gender-box">
+      <h3>Gender</h3>
+      <div class="gender-option">
+        <div class="gender" *ngFor="let gender of genders">
+          <input type="radio" [id]="gender.id" formControlName="gender" [value]="gender.value" />
+          <label [for]="gender.id">{{ gender.option }}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-box address" formArrayName="addresses">
+      <div class="divideColumn">
+        <h3>Address</h3>
+        <button type="button" class="btn-gen-username" (click)=" onAddAddress()">Add Address</button>
+      </div>
+      <div *ngFor="let control of addresses.controls;let i=index">
+        <fieldset [formGroupName]="i">
+          <div class="column">
+            <label>Address {{i+1}}</label>
+            <button type="button" class="btn-gen-username">Remove</button>
+          </div>
+
+          <input type="text" placeholder="Street address" formControlName="street" />
+
+          <div class="column">
+            <div class="select-box">
+              <select formControlName="country">
+                <option value="" disabled selected>Country</option>
+                <option value="bangladesh">Bangladesh</option>
+                <option value="germany">Germany</option>
+                <option value="usa">America</option>
+                <option value="japan">Japan</option>
+              </select>
+            </div>
+
+            <input type="text" placeholder="City" formControlName="city" />
+
+          </div>
+          <div class="column">
+            <input type="text" placeholder="Region" formControlName="region" />
+            <input type="number" placeholder="Postal code" formControlName="postal" />
+          </div>
+        </fieldset>
+      </div>
+
+    </div>
+
+
+
+    <div class="input-box" formArrayName="skills">
+      <h3>Skills</h3>
+      <div class="column" *ngFor="let control of skills.controls; let i=index">
+        <input type="text" placeholder="Add skills" [formControlName]="i">
+        <button type="button" class="btn-gen-username" (click)="onDeleteInput(i)">Delete</button>
+      </div>
+    </div>
+    <button type="button" class="btn-gen-username" (click)="onAddInput()">Add</button>
+
+
+    <div>
+      <input type="checkbox" formControlName="agreement" />
+      <label for="agreement"> I agree to terms and conditions</label>
+    </div>
+
+    <input type="submit" value="Submit" class="submit-btn">
+    <!-- <p>Form is disabled because invalid</p> -->
+  </form>
+</section>

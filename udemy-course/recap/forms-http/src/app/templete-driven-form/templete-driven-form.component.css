@@ -1,0 +1,253 @@
+/* Container */
+.container {
+  position: relative;
+  max-width: 700px;
+  width: 100%;
+  background: #fff;
+  padding: 25px 40px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 18px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container header {
+  font-size: 1.6rem;
+  color: #333;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Form */
+.container .form {
+  margin-top: 25px;
+}
+
+.form .input-box {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.input-box label {
+  color: #333;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form :where(.input-box input, .select-box) {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  outline: none;
+  font-size: 1rem;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0 15px;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Columns */
+.form .column {
+  display: flex;
+  column-gap: 15px;
+}
+
+.form .gender-box {
+  margin-top: 20px;
+}
+
+.gender-box h3 {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.form :where(.gender-option, .gender) {
+  display: flex;
+  align-items: center;
+  column-gap: 40px;
+  flex-wrap: wrap;
+}
+
+.form .gender {
+  column-gap: 8px;
+}
+
+.gender input {
+  accent-color: #4a90e2;
+}
+
+.form :where(.gender input, .gender label) {
+  cursor: pointer;
+}
+
+.gender label {
+  color: #555;
+}
+
+/* Address */
+.address :where(input, .select-box) {
+  margin-top: 15px;
+}
+
+.select-box select {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  color: #333;
+  font-size: 1rem;
+  border-radius: 8px;
+  padding: 0 15px;
+  border: none;
+}
+
+/* Buttons */
+.form .submit-btn {
+  height: 55px;
+  width: 100%;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #4a90e2;
+  border-radius: 8px;
+}
+
+.form .submit-btn:hover {
+  background: #357ab8;
+}
+
+.form .submit-btn:disabled {
+  background: #515151;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.btn-gen-username {
+  margin: 10px 0px;
+  padding: 10px 30px;
+  border-radius: 6px;
+  background: #4a90e2;
+  border: none;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-gen-username:hover {
+  background: #357ab8;
+}
+
+.btn-gen-username:disabled {
+  background: #515151;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Validation */
+input.ng-invalid.ng-touched.ng-dirty {
+  border: 2px solid #e74c3c;
+}
+
+small {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* User Details */
+.user-detail-container {
+  position: relative;
+  max-width: 700px;
+  width: 100%;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 10px;
+  margin-top: 30px;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
+
+.user-details-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.user-avatar {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background-color: #4a90e2;
+  font-size: 75px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.user-details {
+  padding: 0px 20px;
+}
+
+.user-name {
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 2px solid #4a90e2;
+  margin-top: 10px;
+}
+
+span {
+  padding: 5px 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Form Shadow */
+.form-shadow {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 12px;
+}
+
+/* Fieldset Styling */
+fieldset {
+  border: 2px solid #4a90e2;
+  border-radius: 10px;
+  padding: 20px 25px;
+  margin-bottom: 25px;
+  position: relative;
+  background-color: #f9faff;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 12px;
+}
+
+legend {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #4a90e2;
+  padding: 0 10px;
+  width: auto;
+}
+
+/* Responsive */
+@media screen and (max-width: 500px) {
+  .form .column {
+    flex-wrap: wrap;
+  }
+  .form :where(.gender-option, .gender) {
+    row-gap: 12px;
+  }
+  .user-details-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  fieldset.form-section {
+    padding: 15px 20px;
+  }
+  legend {
+    font-size: 1rem;
+  }
+}
