@@ -1,0 +1,99 @@
+<section class="container">
+  <header>Update Form</header>
+  <form class="form" [formGroup]="updateForm" (ngSubmit)="onUpdate()" *ngIf="updateForm">
+    <div class="input-box">
+      <input type="text" placeholder="Phone Number*" formControlName="phone" />
+      <small
+        *ngIf="updateForm?.get('phone')?.touched && updateForm?.get('phone')?.dirty && updateForm?.get('phone')?.errors?.['required']">
+        * Phone Number is required
+      </small>
+      <small *ngIf="updateForm?.get('phone')?.dirty && updateForm.get('phone')?.errors?.['pattern']">
+        * Invalid phone number. Ex: 01712345678
+      </small>
+    </div>
+
+
+    <div class="input-box address" formArrayName="addresses">
+      <div class="divideColumn">
+        <h3>Address</h3>
+        <button type="button" class="btn-add-remove" (click)="onAddAddress()">+</button>
+      </div>
+
+      <div *ngFor="let control of addresses.controls; let i = index" [formGroupName]="i">
+        <fieldset>
+          <div class="column">
+            <label>Address {{ i + 1 }}</label>
+            <button type="button" class="btn-add-remove" (click)="onRemoveField(i)">-</button>
+          </div>
+
+          <input type="text" placeholder="Street address" formControlName="street" />
+          <small *ngIf="control.get('street')?.touched && control.get('street')?.errors?.['required']">
+            * Street is required
+          </small>
+
+          <div class="column">
+            <div class="select-box">
+              <select formControlName="division" (change)="onDivisionChange($event, i)">
+                <option value="" disabled selected hidden>Choose Division*</option>
+                <option *ngFor="let div of divisions" [value]="div.division">{{ div.division | titlecase }}</option>
+              </select>
+              <small *ngIf="control.get('division')?.touched && control.get('division')?.errors?.['required']">
+                * Division is required
+              </small>
+            </div>
+
+            <div class="select-box">
+              <select formControlName="city">
+                <option value="" disabled selected hidden>Choose City*</option>
+                <option *ngFor="let city of addressCities[i]">{{ city | titlecase }}</option>
+              </select>
+              <small *ngIf="control.get('city')?.touched && control.get('city')?.errors?.['required']">
+                * City is required
+              </small>
+            </div>
+          </div>
+
+          <div class="column">
+            <input type="text" placeholder="Region" formControlName="region" />
+            <small *ngIf="control.get('region')?.touched && control.get('region')?.errors?.['required']">
+              * Region is required
+            </small>
+
+            <input type="number" placeholder="Postal code" formControlName="postal" />
+            <small *ngIf="control.get('postal')?.touched && control.get('postal')?.errors?.['required']">
+              * Postal code is required
+            </small>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+
+    <div class="input-box" formArrayName="skills">
+      <div class="divideColumn">
+        <h3>Skills</h3>
+        <button type="button" class="btn-add-remove" (click)="onAddInput()">+</button>
+      </div>
+
+      <div class="column" *ngFor="let control of skills.controls; let i = index">
+        <input type="text" placeholder="Add skills" [formControlName]="i" />
+        <small *ngIf="control.touched && control.errors?.['required']">
+          * Skill is required
+        </small>
+        <button type="button" class="btn-gen-username" (click)="onDeleteInput(i)">Delete</button>
+      </div>
+    </div>
+
+
+    <div>
+      <input type="checkbox" formControlName="agreement" />
+      <label for="agreement"> I agree to terms and conditions</label>
+      <small *ngIf="updateForm.get('agreement')?.touched && updateForm.get('agreement')?.errors?.['required']">
+        * You must agree before submitting
+      </small>
+    </div>
+
+
+    <input type="submit" value="Update" class="submit-btn" [disabled]="updateForm.invalid" />
+  </form>
+</section>

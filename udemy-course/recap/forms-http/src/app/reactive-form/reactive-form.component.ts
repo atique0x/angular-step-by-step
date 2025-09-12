@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { noSpaceValidator } from './custom.validators';
-import { debounceTime } from 'rxjs';
+import { divisionList } from './division-data';
+import { User } from './user.model';
+import { UserHttpService } from './user-http.service';
 
 @Component({
   selector: 'app-reactive-form',
@@ -9,133 +10,131 @@ import { debounceTime } from 'rxjs';
   styleUrls: ['./reactive-form.component.css'],
 })
 export class ReactiveFormComponent implements OnInit {
-  disableRemoveAddress = false;
-  genders = [
-    {
-      id: 'check-male',
-      value: 'male',
-      option: 'Male',
-    },
-    {
-      id: 'check-female',
-      value: 'female',
-      option: 'Female',
-    },
-    {
-      id: 'check-other',
-      value: 'others',
-      option: 'Prefer not to say',
-    },
-  ];
+  today = new Date().toISOString().split('T')[0];
 
   reactiveForm!: FormGroup;
 
-  constructor() {}
+  genders = [
+    { id: 'check-male', value: 'male', option: 'Male' },
+    { id: 'check-female', value: 'female', option: 'Female' },
+    { id: 'check-other', value: 'others', option: 'Prefer not to say' },
+  ];
+
+  divisions = divisionList;
+  addressCities: string[][] = [];
+
+  constructor(private userHttpService: UserHttpService) {}
 
   ngOnInit(): void {
+    this.initializeForm();
+    this.setupFormListeners();
+  }
+
+  private initializeForm() {
     this.reactiveForm = new FormGroup({
       name: new FormGroup({
-        firstName: new FormControl('', [Validators.required, noSpaceValidator]),
-        lastName: new FormControl('', [Validators.required]),
+        firstName: new FormControl('Mr. ', [Validators.required]),
+        lastName: new FormControl(''),
       }),
       email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl(''),
-      dateOfBirth: new FormControl(''),
-      username: new FormControl(''),
-      gender: new FormControl('male'),
+      phone: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^01[3-9]\d{8}$/),
+      ]),
+      dateOfBirth: new FormControl('', Validators.required),
+      gender: new FormControl('male', Validators.required),
       agreement: new FormControl(false),
+
       addresses: new FormArray([
         new FormGroup({
           street: new FormControl(''),
-          country: new FormControl(''),
-          city: new FormControl('country'),
+          division: new FormControl('', Validators.required),
+          city: new FormControl('', Validators.required),
           region: new FormControl(''),
           postal: new FormControl(''),
         }),
       ]),
-      skills: new FormArray([new FormControl()]),
-    });
 
-    this.reactiveForm
-      .get('name.firstName')
-      ?.valueChanges.pipe(debounceTime(1000))
-      .subscribe((val) => {
-        console.log(val);
-      });
+      skills: new FormArray([new FormControl('')]),
+    });
+  }
+
+  private setupFormListeners() {
+    const firstNameControl = this.reactiveForm.get('name.firstName');
+
+    this.reactiveForm.get('gender')?.valueChanges.subscribe((gender) => {
+      if (!firstNameControl) return;
+
+      let currentName = firstNameControl.value || '';
+      currentName = currentName.replace(/^Mr\. |^Mrs\. /, '');
+
+      if (gender === 'male') {
+        firstNameControl.setValue(`Mr. ${currentName}`);
+      } else if (gender === 'female') {
+        firstNameControl.setValue(`Mrs. ${currentName}`);
+      } else {
+        firstNameControl.setValue(currentName);
+      }
+    });
   }
 
   get skills(): FormArray {
     return this.reactiveForm.get('skills') as FormArray;
   }
 
-  get addresses() {
+  get addresses(): FormArray {
     return this.reactiveForm.get('addresses') as FormArray;
   }
 
   onAddInput() {
-    const skills = this.reactiveForm.get('skills') as FormArray | null;
-    if (skills) {
-      console.log(skills.controls.push(new FormControl('')));
-    }
+    this.skills.push(new FormControl(''));
   }
 
-  onDeleteInput(pos: number) {
-    const skills = this.reactiveForm.get('skills') as FormArray | null;
-    if (skills) {
-      if (skills.controls.length > 1) {
-        skills.controls.splice(pos, 1);
-      }
-    }
+  onDeleteInput(index: number) {
+    if (this.skills.length > 1) this.skills.removeAt(index);
   }
 
   onAddAddress() {
-    const address = this.reactiveForm.get('addresses') as FormArray | null;
-    if (address) {
-      address.controls.push(
-        new FormGroup({
-          street: new FormControl(''),
-          country: new FormControl(''),
-          city: new FormControl(''),
-          region: new FormControl(''),
-          postal: new FormControl(''),
-        })
-      );
-    }
+    this.addresses.push(
+      new FormGroup({
+        street: new FormControl(''),
+        division: new FormControl('', Validators.required),
+        city: new FormControl('', Validators.required),
+        region: new FormControl(''),
+        postal: new FormControl(''),
+      })
+    );
   }
 
-  onRemoveField(pos: number) {
-    const address = this.reactiveForm.get('address') as FormArray | null;
-    if (address) {
-      if (address.controls.length > 1) {
-        address.controls.splice(pos, 1);
-      }
-    }
+  onRemoveField(index: number) {
+    if (this.addresses.length > 1) this.addresses.removeAt(index);
+  }
+
+  onDivisionChange(event: any, index: number) {
+    const division = this.divisions.find(
+      (d) => d.division === event.target.value
+    );
+    if (division) this.addressCities[index] = division.cities;
   }
 
   onFormSubmitted() {
-    console.log('Submitted');
-    console.log(this.reactiveForm);
-    this.reactiveForm.reset({
-      name: {
-        firstName: '',
-        lastName: '',
-      },
-      email: '',
-      phone: '',
-      dateOfBirth: '',
-      username: '',
-      gender: 'male',
-      agreement: false,
-      addresses: [
-        {
-          street: '',
-          country: '',
-          city: '',
-          region: '',
-          postal: '',
-        },
-      ],
-      skills: '',
-    });
+    const userInfo: User = this.reactiveForm.value;
+
+    if (!userInfo.agreement) {
+      alert('You must agree to the terms and conditions before submitting.');
+      return;
+    }
+    this.userHttpService.createUser(userInfo);
+    this.formReset();
+  }
+
+  formReset() {
+    this.reactiveForm.reset({ gender: 'male' }); // reset the main form
+
+    (this.reactiveForm.get('addresses') as FormArray).controls.forEach(
+      (group: any) => {
+        group.reset({ division: '', city: '' }); // reset each address
+      }
+    );
   }
 }

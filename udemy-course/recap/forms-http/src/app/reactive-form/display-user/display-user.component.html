@@ -1,0 +1,49 @@
+<div *ngIf="!allUsers">
+  <h2>No User Available</h2>
+</div>
+
+<div class="user-table-container" *ngIf="allUsers">
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>DOB</th>
+        <th>Gender</th>
+        <th>Skills</th>
+        <th>Addresses</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of allUsers; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ user.name.firstName |titlecase }} {{ user.name.lastName|titlecase }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phone }}</td>
+        <td>{{ user.dateOfBirth |date }}</td>
+        <td>{{ user.gender |titlecase}}</td>
+        <td>
+          <span class="skill" *ngFor="let skill of user.skills">{{ skill |titlecase}}</span>
+        </td>
+        <td>
+          <div class="address" *ngFor="let addr of user.addresses">
+            <p>{{ addr.street ? addr.street+',':''}} {{ addr.city ||'' |titlecase}} {{ addr.postal ||'' }}
+              {{
+              addr.division ||'' |titlecase }}
+            </p>
+
+          </div>
+        </td>
+        <td class="actions">
+          <button class="btn edit">
+            <a [routerLink]="['/edituser', user.id]">Edit</a>
+          </button>
+          <button class="btn delete" (click)="onDeleteUser(user.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

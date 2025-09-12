@@ -14,6 +14,8 @@ import { FooterComponent } from './http-client/footer/footer.component';
 import { DashboardComponent } from './http-client/dashboard/dashboard.component';
 import { CreateTaskComponent } from './http-client/dashboard/create-task/create-task.component';
 import { TaskDetailsComponent } from './http-client/dashboard/task-details/task-details.component';
+import { DisplayUserComponent } from './reactive-form/display-user/display-user.component';
+import { UpdateFormComponent } from './reactive-form/update-form/update-form.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { TaskDetailsComponent } from './http-client/dashboard/task-details/task-
     DashboardComponent,
     CreateTaskComponent,
     TaskDetailsComponent,
+    DisplayUserComponent,
+    UpdateFormComponent,
   ],
   imports: [
     BrowserModule,
