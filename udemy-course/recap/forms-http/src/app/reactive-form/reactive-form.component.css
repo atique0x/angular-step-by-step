@@ -111,6 +111,50 @@
   background: #357ab8;
 }
 
+.form-control {
+  padding: 6px 10px;
+  width: 250px;
+}
+
+.street {
+  width: 300px;
+  margin: 20px auto;
+}
+
+.street input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.street ul {
+  background-color: #f0f6ff;
+  padding: 0;
+  border-radius: 5px;
+}
+
+.street ul li {
+  list-style: none;
+  padding: 8px;
+}
+
+.street ul li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
+
+.street ul li:hover {
+  background-color: #dce9ff;
+}
+
+.form-select {
+  padding: 6px 10px;
+  width: 250px;
+}
+
 fieldset {
   display: flex;
   flex-direction: column;

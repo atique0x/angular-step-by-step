@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { divisionList } from './division-data';
+import { address, divisionList } from './division-data';
 import { User } from './user.model';
 import { UserHttpService } from './user-http.service';
 
@@ -21,6 +21,7 @@ export class ReactiveFormComponent implements OnInit {
   ];
 
   divisions = divisionList;
+  address = address;
   addressCities: string[][] = [];
 
   constructor(private userHttpService: UserHttpService) {}
