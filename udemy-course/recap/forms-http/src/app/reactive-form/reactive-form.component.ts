@@ -11,7 +11,8 @@ import { UserHttpService } from './user-http.service';
 })
 export class ReactiveFormComponent implements OnInit {
   today = new Date().toISOString().split('T')[0];
-
+  searchText: string[] = [];
+  filteredAddress: (typeof address)[] = [];
   reactiveForm!: FormGroup;
 
   genders = [
@@ -21,7 +22,9 @@ export class ReactiveFormComponent implements OnInit {
   ];
 
   divisions = divisionList;
-  address = address;
+  address = [...address];
+  backupAddress = [...address];
+
   addressCities: string[][] = [];
 
   constructor(private userHttpService: UserHttpService) {}
@@ -29,6 +32,7 @@ export class ReactiveFormComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.setupFormListeners();
+    this.getSearchText(0);
   }
 
   private initializeForm() {
@@ -51,7 +55,6 @@ export class ReactiveFormComponent implements OnInit {
           street: new FormControl(''),
           division: new FormControl('', Validators.required),
           city: new FormControl('', Validators.required),
-          region: new FormControl(''),
           postal: new FormControl(''),
         }),
       ]),
@@ -79,12 +82,61 @@ export class ReactiveFormComponent implements OnInit {
     });
   }
 
+  getSearchText(index: number) {
+    const streetControl = (this.reactiveForm.get('addresses') as FormArray)
+      .at(index)
+      .get('street');
+
+    streetControl?.valueChanges.subscribe((val) => {
+      this.searchText[index] = val;
+      this.getSearchedItems(index);
+    });
+  }
+
+  getSearchedItems(index: number) {
+    this.filteredAddress[index] = this.address.filter((add) =>
+      add.street
+        .toLowerCase()
+        .includes(this.searchText[index]?.toLowerCase() || '')
+    );
+  }
+
+  setStreetAddress(
+    add: { street: string; city: string; division: string; postcode: number },
+    index: number
+  ) {
+    const addressGroup = this.addresses.at(index) as FormGroup;
+
+    addressGroup.patchValue({
+      street: add.street[0].toUpperCase() + add.street.slice(1),
+      division: add.division,
+      city: add.city,
+      postal: add.postcode,
+    });
+
+    this.address = this.address.filter((ad) => ad.street !== add.street);
+
+    const division = this.divisions.find((d) => d.division === add.division);
+    if (division) {
+      this.addressCities[index] = division.cities;
+    }
+
+    this.filteredAddress[index] = [];
+  }
+
   get skills(): FormArray {
     return this.reactiveForm.get('skills') as FormArray;
   }
 
   get addresses(): FormArray {
     return this.reactiveForm.get('addresses') as FormArray;
+  }
+
+  hideDropdown(index: number) {
+    // Small delay so click on a suggestion still works
+    setTimeout(() => {
+      this.filteredAddress[index] = [];
+    }, 200);
   }
 
   onAddInput() {
@@ -101,14 +153,37 @@ export class ReactiveFormComponent implements OnInit {
         street: new FormControl(''),
         division: new FormControl('', Validators.required),
         city: new FormControl('', Validators.required),
-        region: new FormControl(''),
         postal: new FormControl(''),
       })
     );
+    const newIndex = this.addresses.length - 1;
+    this.getSearchText(newIndex);
   }
 
   onRemoveField(index: number) {
-    if (this.addresses.length > 1) this.addresses.removeAt(index);
+    if (this.addresses.length > 1) {
+      const removedGroup = this.addresses.at(index) as FormGroup;
+      const removedStreet = removedGroup.get('street')?.value;
+
+      if (removedStreet) {
+        const alreadyExists = this.address.find(
+          (ad) => ad.street === removedStreet.toLowerCase()
+        );
+        const existAddressFromBackup = this.backupAddress.find(
+          (ad) => ad.street === removedStreet.toLowerCase()
+        );
+        console.log(existAddressFromBackup);
+        if (!alreadyExists && existAddressFromBackup) {
+          this.address.push({
+            street: removedStreet,
+            city: existAddressFromBackup.city,
+            division: existAddressFromBackup.division,
+            postcode: existAddressFromBackup.postcode,
+          });
+        }
+      }
+      this.addresses.removeAt(index);
+    }
   }
 
   onDivisionChange(event: any, index: number) {

@@ -1,232 +1,100 @@
 <section class="container">
   <header>User Form</header>
-
-  <form class="form" [formGroup]="reactiveForm" (ngSubmit)="onFormSubmitted()">
-
-    <!-- Name Fields -->
+  <form class="form" [formGroup]="reactiveForm" (ngSubmit)="onFormSubmitted()"> <!-- Name Fields -->
     <div class="column" formGroupName="name">
-      <div class="input-box">
-        <input type="text" placeholder="First Name*" formControlName="firstName" />
-        <small
+      <div class="input-box"> <input type="text" placeholder="First Name*" formControlName="firstName" /> <small
           *ngIf="reactiveForm.get('name.firstName')?.touched && reactiveForm.get('name.firstName')?.dirty && reactiveForm.get('name.firstName')?.errors?.['required']">
-          * First Name is required
-        </small>
-      </div>
-
-      <div class="input-box">
-        <input type="text" placeholder="Last Name" formControlName="lastName" />
-        <small
+          * First Name is required </small> </div>
+      <div class="input-box"> <input type="text" placeholder="Last Name" formControlName="lastName" /> <small
           *ngIf="reactiveForm.get('name.lastName')?.touched && reactiveForm.get('name.lastName')?.dirty && reactiveForm.get('name.lastName')?.errors?.['required']">
-          * Last Name is required
-        </small>
-      </div>
+          * Last Name is required </small> </div>
     </div>
-
-
-    <div class="input-box">
-      <input type="email" placeholder="Email*" formControlName="email" />
-      <small
+    <div class="input-box"> <input type="email" placeholder="Email*" formControlName="email" /> <small
         *ngIf="reactiveForm.get('email')?.touched && reactiveForm.get('email')?.dirty && reactiveForm.get('email')?.errors?.['required']">
-        * Email is required
-      </small>
-      <small *ngIf="reactiveForm.get('email')?.touched && reactiveForm.get('email')?.errors?.['email']">
-        * Invalid email address
-      </small>
-    </div>
-
-    <!-- Phone & Date -->
+        * Email is required </small> <small
+        *ngIf="reactiveForm.get('email')?.touched && reactiveForm.get('email')?.errors?.['email']"> * Invalid email
+        address </small> </div> <!-- Phone & Date -->
     <div class="column">
-      <div class="input-box">
-        <input type="text" placeholder="Phone Number*" formControlName="phone" />
-
-        <!-- Required validation -->
-        <small
+      <div class="input-box"> <input type="text" placeholder="Phone Number*" formControlName="phone" />
+        <!-- Required validation --> <small
           *ngIf="reactiveForm.get('phone')?.touched && reactiveForm.get('phone')?.dirty && reactiveForm.get('phone')?.errors?.['required']">
-          * Phone Number is required
-        </small>
-
-        <!-- Pattern validation -->
-        <small *ngIf="reactiveForm.get('phone')?.touched && reactiveForm.get('phone')?.errors?.['pattern']">
-          * Invalid phone number. Ex: 01712345678
-        </small>
-      </div>
-
-
-      <div class="input-box">
-        <input type="date" formControlName="dateOfBirth" [min]="'1950-01-01'" [max]="today" />
+          * Phone Number is required </small> <!-- Pattern validation --> <small
+          *ngIf="reactiveForm.get('phone')?.touched && reactiveForm.get('phone')?.errors?.['pattern']"> * Invalid phone
+          number. Ex: 01712345678 </small> </div>
+      <div class="input-box"> <input type="date" formControlName="dateOfBirth" [min]="'1950-01-01'" [max]="today" />
         <small
-          *ngIf="reactiveForm.get('dateOfBirth')?.touched && reactiveForm.get('dateOfBirth')?.errors?.['required']">
-          * Date of Birth is required
-        </small>
+          *ngIf="reactiveForm.get('dateOfBirth')?.touched && reactiveForm.get('dateOfBirth')?.errors?.['required']"> *
+          Date of Birth is required </small>
       </div>
-    </div>
-
-    <!-- Gender -->
+    </div> <!-- Gender -->
     <div class="gender-box">
       <h3>Gender*</h3>
       <div class="gender-option">
-        <div class="gender" *ngFor="let gender of genders">
-          <input type="radio" [id]="gender.id" formControlName="gender" [value]="gender.value" />
-          <label [for]="gender.id">{{ gender.option }}</label>
+        <div class="gender" *ngFor="let gender of genders"> <input type="radio" [id]="gender.id"
+            formControlName="gender" [value]="gender.value" /> <label [for]="gender.id">{{ gender.option }}</label>
         </div>
-      </div>
-      <small *ngIf="reactiveForm.get('gender')?.touched && reactiveForm.get('gender')?.errors?.['required']">
-        * Gender is required
-      </small>
+      </div> <small *ngIf="reactiveForm.get('gender')?.touched && reactiveForm.get('gender')?.errors?.['required']"> *
+        Gender is required </small>
     </div>
-
     <!-- Addresses -->
-
-    <!-- <div class="input-box address" formArrayName="addresses">
-      <div class="divideColumn">
-        <h3>Address</h3>
-        <button type="button" class="btn-add-remove" (click)="onAddAddress()">+</button>
-      </div>
-
-      <div *ngFor="let control of addresses.controls; let i = index" [formGroupName]="i">
-        <fieldset>
-          <div class="column">
-            <label>Address {{ i + 1 }}</label>
-            <button type="button" class="btn-add-remove" (click)="onRemoveField(i)">-</button>
-          </div>
-
-          <input type="text" placeholder="Street address" formControlName="street" />
-          <small *ngIf="control.get('street')?.touched && control.get('street')?.errors?.['required']">
-            * Street is required
-          </small>
-
-          <div class="column">
-            <div class="select-box">
-              <select formControlName="division" (change)="onDivisionChange($event, i)">
-                <option value="" disabled selected hidden>Choose Division*</option>
-                <option *ngFor="let div of divisions" [value]="div.division">{{ div.division | titlecase }}</option>
-              </select>
-              <small *ngIf="control.get('division')?.touched && control.get('division')?.errors?.['required']">
-                * Division is required
-              </small>
-            </div>
-
-            <div class="select-box">
-              <select formControlName="city">
-                <option value="" disabled selected hidden>Choose City* </option>
-                <option *ngFor="let city of addressCities[i]">{{ city | titlecase }}</option>
-              </select>
-              <small *ngIf="control.get('city')?.touched && control.get('city')?.errors?.['required']">
-                * City is required
-              </small>
-            </div>
-          </div>
-
-          <div class="column">
-            <input type="text" placeholder="Region" formControlName="region" />
-            <small *ngIf="control.get('region')?.touched && control.get('region')?.errors?.['required']">
-              * Region is required
-            </small>
-
-            <input type="number" placeholder="Postal code" formControlName="postal" />
-            <small *ngIf="control.get('postal')?.touched && control.get('postal')?.errors?.['required']">
-              * Postal code is required
-            </small>
-          </div>
-        </fieldset>
-      </div>
-    </div> -->
+    <!-- <div class="input-box address" formArrayName="addresses"> <div class="divideColumn"> <h3>Address</h3> <button type="button" class="btn-add-remove" (click)="onAddAddress()">+</button> </div> <div *ngFor="let control of addresses.controls; let i = index" [formGroupName]="i"> <fieldset> <div class="column"> <label>Address {{ i + 1 }}</label> <button type="button" class="btn-add-remove" (click)="onRemoveField(i)">-</button> </div> <input type="text" placeholder="Street address" formControlName="street" /> <small *ngIf="control.get('street')?.touched && control.get('street')?.errors?.['required']"> * Street is required </small> <div class="column"> <div class="select-box"> <select formControlName="division" (change)="onDivisionChange($event, i)"> <option value="" disabled selected hidden>Choose Division*</option> <option *ngFor="let div of divisions" [value]="div.division">{{ div.division | titlecase }}</option> </select> <small *ngIf="control.get('division')?.touched && control.get('division')?.errors?.['required']"> * Division is required </small> </div> <div class="select-box"> <select formControlName="city"> <option value="" disabled selected hidden>Choose City* </option> <option *ngFor="let city of addressCities[i]">{{ city | titlecase }}</option> </select> <small *ngIf="control.get('city')?.touched && control.get('city')?.errors?.['required']"> * City is required </small> </div> </div> <div class="column"> <input type="text" placeholder="Region" formControlName="region" /> <small *ngIf="control.get('region')?.touched && control.get('region')?.errors?.['required']"> * Region is required </small> <input type="number" placeholder="Postal code" formControlName="postal" /> <small *ngIf="control.get('postal')?.touched && control.get('postal')?.errors?.['required']"> * Postal code is required </small> </div> </fieldset> </div> </div> -->
 
     <div class="input-box address" formArrayName="addresses">
       <div class="divideColumn">
-        <h3>Address</h3>
-        <button type="button" class="btn-add-remove" (click)="onAddAddress()">+</button>
+        <h3>Address</h3> <button type="button" class="btn-add-remove" (click)="onAddAddress()">+</button>
       </div>
-
       <div *ngFor="let control of addresses.controls; let i = index" [formGroupName]="i">
         <fieldset>
-          <div class="column">
-            <label>Address {{ i + 1 }}</label>
-            <button type="button" class="btn-add-remove" (click)="onRemoveField(i)">-</button>
-          </div>
+          <div class="column"> <label>Address {{ i + 1 }}</label> <button type="button" class="btn-add-remove"
+              (click)="onRemoveField(i)">-</button> </div>
 
-          <div class="street">
-
-            <input type="text" formControlName="street" placeholder="Search city..." class="form-control mb-2" />
-
-            <ul>
-              <a href="">
-                <li *ngFor="let add of address">{{ add.street |titlecase}}</li>
-              </a>
+          <div class="street"> <input type="text" formControlName="street" placeholder="Search street..."
+              class="form-control mb-2" (blur)="hideDropdown(i)" (focus)="getSearchText(i)" />
+            <ul *ngIf="filteredAddress[i]?.length">
+              <li *ngFor="let add of filteredAddress[i]" (click)="setStreetAddress(add, i)"> {{ add.street | titlecase
+                }} </li>
             </ul>
-
-
           </div>
 
-          <small *ngIf="control.get('street')?.touched && control.get('street')?.errors?.['required']">
-            * Street is required
-          </small>
+          <small *ngIf="control.get('street')?.touched && control.get('street')?.errors?.['required']"> * Street
+            is required </small>
 
           <div class="column">
-            <div class="select-box">
-              <select formControlName="division" (change)="onDivisionChange($event, i)">
+            <div class="select-box"> <select formControlName="division" (change)="onDivisionChange($event, i)">
                 <option value="" disabled selected hidden>Choose Division*</option>
                 <option *ngFor="let div of divisions" [value]="div.division">{{ div.division | titlecase }}</option>
-              </select>
-              <small *ngIf="control.get('division')?.touched && control.get('division')?.errors?.['required']">
-                * Division is required
-              </small>
+              </select> <small
+                *ngIf="control.get('division')?.touched && control.get('division')?.errors?.['required']"> * Division is
+                required </small>
             </div>
 
-            <div class="select-box">
-              <select formControlName="city">
+            <div class="select-box"> <select formControlName="city">
                 <option value="" disabled selected hidden>Choose City* </option>
                 <option *ngFor="let city of addressCities[i]">{{ city | titlecase }}</option>
-              </select>
-              <small *ngIf="control.get('city')?.touched && control.get('city')?.errors?.['required']">
-                * City is required
-              </small>
-            </div>
+              </select> <small *ngIf="control.get('city')?.touched && control.get('city')?.errors?.['required']"> * City
+                is required </small> </div>
           </div>
 
-          <div class="column">
-            <input type="text" placeholder="Region" formControlName="region" />
-            <small *ngIf="control.get('region')?.touched && control.get('region')?.errors?.['required']">
-              * Region is required
-            </small>
-
-            <input type="number" placeholder="Postal code" formControlName="postal" />
-            <small *ngIf="control.get('postal')?.touched && control.get('postal')?.errors?.['required']">
-              * Postal code is required
-            </small>
+          <div class="column"> <input type="number" placeholder="Postal code" formControlName="postal" /> <small
+              *ngIf="control.get('postal')?.touched && control.get('postal')?.errors?.['required']"> * Postal code is
+              required </small>
           </div>
         </fieldset>
       </div>
-    </div>
-
-
-
-    <!-- Skills -->
+    </div> <!-- Skills -->
     <div class="input-box" formArrayName="skills">
       <div class="divideColumn">
-        <h3>Skills</h3>
-        <button type="button" class="btn-add-remove" (click)="onAddInput()">+</button>
+        <h3>Skills</h3> <button type="button" class="btn-add-remove" (click)="onAddInput()">+</button>
       </div>
-
-      <div class="column" *ngFor="let control of skills.controls; let i = index">
-        <input type="text" placeholder="Add skills" [formControlName]="i" />
-        <small *ngIf="control.touched && control.errors?.['required']">
-          * Skill is required
-        </small>
-        <button type="button" class="btn-gen-username" (click)="onDeleteInput(i)">Delete</button>
-      </div>
-    </div>
-
-    <!-- Agreement -->
-    <div>
-      <input type="checkbox" formControlName="agreement" />
-      <label for="agreement"> I agree to terms and conditions.*</label>
-      <small *ngIf="reactiveForm.get('agreement')?.touched && reactiveForm.get('agreement')?.errors?.['required']">
-        * You must agree before submitting
-      </small>
-    </div>
-
-    <!-- Submit -->
-    <input type="submit" value="Submit" class="submit-btn" [disabled]="reactiveForm.invalid" />
+      <div class="column" *ngFor="let control of skills.controls; let i = index"> <input type="text"
+          placeholder="Add skills" [formControlName]="i" /> <small
+          *ngIf="control.touched && control.errors?.['required']"> * Skill is required </small> <button type="button"
+          class="btn-gen-username" (click)="onDeleteInput(i)">Delete</button> </div>
+    </div> <!-- Agreement -->
+    <div> <input type="checkbox" formControlName="agreement" /> <label for="agreement"> I agree to terms and
+        conditions.*</label> <small
+        *ngIf="reactiveForm.get('agreement')?.touched && reactiveForm.get('agreement')?.errors?.['required']"> * You
+        must agree before submitting </small> </div> <!-- Submit --> <input type="submit" value="Submit"
+      class="submit-btn" [disabled]="reactiveForm.invalid" />
   </form>
 </section>

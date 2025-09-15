@@ -111,43 +111,44 @@
   background: #357ab8;
 }
 
-.form-control {
-  padding: 6px 10px;
-  width: 250px;
-}
-
 .street {
-  width: 300px;
-  margin: 20px auto;
+  position: relative;
+  width: 100%;
 }
 
 .street input {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
+  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 1rem;
 }
 
 .street ul {
-  background-color: #f0f6ff;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 0;
   padding: 0;
-  border-radius: 5px;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .street ul li {
   list-style: none;
-  padding: 8px;
-}
-
-.street ul li a {
-  text-decoration: none;
-  color: #333;
-  display: block;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
 .street ul li:hover {
-  background-color: #dce9ff;
+  background: #f0f6ff;
 }
 
 .form-select {
